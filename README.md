@@ -22,6 +22,7 @@ Available addons
 addon | version | maintainers | summary
 --- | --- | --- | ---
 [cmis_folder_widget](cmis_folder_widget/) | 19.0.1.0.0 | <a href='https://github.com/tansadio'><img src='https://github.com/tansadio.png' width='32' height='32' style='border-radius:50%;' alt='tansadio'/></a> | Browse and manage the CMIS folder of a record, through Odoo only
+[cmis_folder_widget_alf](cmis_folder_widget_alf/) | 19.0.1.0.0 | <a href='https://github.com/tansadio'><img src='https://github.com/tansadio.png' width='32' height='32' style='border-radius:50%;' alt='tansadio'/></a> | Preview office documents as PDF and open the contents in Share
 
 [//]: # (end addons)
 

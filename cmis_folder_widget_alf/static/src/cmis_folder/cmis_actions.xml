@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-inherit="cmis_folder_widget.CmisActions" t-inherit-mode="extension">
+        <xpath expr="//t[@t-set-slot='content']" position="inside">
+            <t t-if="props.cmisObject.share_url">
+                <div class="dropdown-divider" />
+                <a
+                    class="dropdown-item o_cmis_share_link"
+                    t-att-href="props.cmisObject.share_url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <i class="fa fa-external-link me-1" /> Open in Alfresco Share
+                </a>
+            </t>
+        </xpath>
+    </t>
+</templates>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 tansadio
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="cmis_backend_form_view" model="ir.ui.view">
+        <field name="name">cmis.backend.form (cmis_folder_widget_alf)</field>
+        <field name="model">cmis.backend</field>
+        <field name="inherit_id" ref="cmis.cmis_backend_form_view" />
+        <field name="arch" type="xml">
+            <group name="directory_conf" position="after">
+                <group name="cmis_folder_widget_alf" string="Folder widget">
+                    <field name="alfresco_share_links" />
+                    <field name="alfresco_rendition_timeout" />
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

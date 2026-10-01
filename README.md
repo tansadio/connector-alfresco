@@ -17,7 +17,11 @@ Odoo modules to integrate Alfresco through CMIS and its REST API
 
 [//]: # (addons)
 
-This part will be replaced when running the oca-gen-addons-table script from OCA/maintainer-tools.
+Available addons
+----------------
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[cmis_folder_widget](cmis_folder_widget/) | 19.0.1.0.0 | <a href='https://github.com/tansadio'><img src='https://github.com/tansadio.png' width='32' height='32' style='border-radius:50%;' alt='tansadio'/></a> | Browse and manage the CMIS folder of a record, through Odoo only
 
 [//]: # (end addons)
 

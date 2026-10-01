@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="cmis_folder_widget.CmisFolderField">
+        <div class="o_cmis_folder w-100">
+            <div t-if="backendError" class="alert alert-warning" role="alert">
+                <t t-esc="backendError" />
+            </div>
+            <div t-elif="!props.record.resId" class="text-muted">
+                Save the record to manage its documents.
+            </div>
+            <t t-elif="!value">
+                <button
+                    t-if="canCreateRoot"
+                    type="button"
+                    class="btn btn-primary o_cmis_create_root"
+                    t-on-click="createRootFolder"
+                >
+                    Create folder in DMS
+                </button>
+                <span t-else="" class="text-muted">No folder in DMS.</span>
+            </t>
+            <div t-elif="state.error" class="alert alert-danger" role="alert">
+                <t t-esc="state.error" />
+            </div>
+            <t t-elif="state.folder">
+                <div class="d-flex gap-2 mb-2">
+                    <button
+                        type="button"
+                        class="btn btn-outline-primary o_cmis_refresh"
+                        title="Refresh"
+                        aria-label="Refresh"
+                        t-on-click="reload"
+                    >
+                        <i
+                            t-att-class="'fa fa-refresh' + (state.loading ? ' fa-spin' : '')"
+                        />
+                    </button>
+                    <div t-if="state.permissions.can_create" class="btn-group">
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary o_cmis_create_folder"
+                            title="Create a folder"
+                            aria-label="Create a folder"
+                            t-on-click="onClickCreateFolder"
+                        >
+                            <i class="fa fa-folder" />
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary o_cmis_add_document"
+                            title="Add documents"
+                            aria-label="Add documents"
+                            t-on-click="onClickAddDocument"
+                        >
+                            <i class="fa fa-upload" />
+                        </button>
+                    </div>
+                </div>
+                <CmisBreadcrumbs
+                    breadcrumbs="state.breadcrumbs"
+                    openFolder.bind="openFolder"
+                />
+                <div
+                    class="o_cmis_dropzone"
+                    t-att-class="{'o_cmis_dragging': state.dragging}"
+                    t-on-dragenter.prevent="onDragenter"
+                    t-on-dragleave.prevent="onDragleave"
+                    t-on-dragover.prevent=""
+                    t-on-drop.prevent="onDrop"
+                >
+                    <CmisTable
+                        children="state.children"
+                        permissions="state.permissions"
+                        openFolder.bind="openFolder"
+                        onPreview.bind="onPreview"
+                        onDownload.bind="onDownload"
+                        onRename.bind="onRename"
+                        onUpdateContent.bind="onUpdateContent"
+                        onDelete.bind="onDelete"
+                    />
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

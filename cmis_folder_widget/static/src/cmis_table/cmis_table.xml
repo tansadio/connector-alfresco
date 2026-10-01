@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="cmis_folder_widget.CmisTable">
+        <div class="table-responsive">
+            <table class="table table-sm table-hover table-striped o_cmis_table mb-0">
+                <thead>
+                    <tr>
+                        <th
+                            t-foreach="activeColumns"
+                            t-as="column"
+                            t-key="column.name"
+                            class="cursor-pointer opacity-trigger-hover"
+                            t-att-data-name="column.name"
+                            t-on-click="() => this.sortBy(column)"
+                        >
+                            <span t-esc="column.label" />
+                            <i t-att-class="sortIcon(column) + ' ms-1'" />
+                        </th>
+                        <th class="o_cmis_actions_header text-end">
+                            <Dropdown position="'bottom-end'">
+                                <button
+                                    type="button"
+                                    class="btn p-0"
+                                    title="Columns"
+                                    aria-label="Columns"
+                                >
+                                    <i class="oi oi-fw oi-settings-adjust" />
+                                </button>
+                                <t t-set-slot="content">
+                                    <DropdownItem
+                                        t-foreach="state.columns"
+                                        t-as="column"
+                                        t-key="column.name"
+                                        closingMode="'none'"
+                                        onSelected="() => this.toggleColumn(column)"
+                                    >
+                                        <CheckBox
+                                            value="column.active"
+                                            onChange="() => this.toggleColumn(column)"
+                                        >
+                                            <t t-esc="column.label" />
+                                        </CheckBox>
+                                    </DropdownItem>
+                                </t>
+                            </Dropdown>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        t-foreach="sortedChildren"
+                        t-as="obj"
+                        t-key="obj.id"
+                        class="o_cmis_row cursor-pointer"
+                        t-att-data-id="obj.id"
+                        t-on-click="() => this.onClickRow(obj)"
+                    >
+                        <td
+                            t-foreach="activeColumns"
+                            t-as="column"
+                            t-key="column.name"
+                            t-att-name="column.name"
+                        >
+                            <i
+                                t-if="column.name === 'name'"
+                                t-att-class="iconClass(obj) + ' me-2'"
+                            />
+                            <t t-esc="formatValue(column, obj)" />
+                        </td>
+                        <td class="text-end">
+                            <CmisActions
+                                cmisObject="obj"
+                                permissions="props.permissions"
+                                onPreview="props.onPreview"
+                                onDownload="props.onDownload"
+                                onRename="props.onRename"
+                                onUpdateContent="props.onUpdateContent"
+                                onDelete="props.onDelete"
+                            />
+                        </td>
+                    </tr>
+                    <tr t-if="!props.children.length">
+                        <td
+                            t-att-colspan="activeColumns.length + 1"
+                            class="text-muted text-center py-3"
+                        >
+                            This folder is empty.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </t>
+</templates>

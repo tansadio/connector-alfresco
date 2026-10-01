@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="cmis_folder_widget.CmisNameDialog">
+        <Dialog size="'md'" title="props.title">
+            <input
+                type="text"
+                class="form-control"
+                t-ref="input"
+                t-model="state.name"
+                t-on-keydown="onKeydown"
+            />
+            <t t-set-slot="footer">
+                <button
+                    class="btn btn-primary"
+                    t-on-click="onConfirm"
+                    t-att-disabled="!state.name.trim()"
+                    t-esc="props.confirmLabel"
+                />
+                <button class="btn btn-secondary" t-on-click="props.close">
+                    Cancel
+                </button>
+            </t>
+        </Dialog>
+    </t>
+
+    <t t-name="cmis_folder_widget.CmisFileDialog">
+        <Dialog size="'md'" title="props.title">
+            <input
+                type="file"
+                class="form-control"
+                t-ref="input"
+                t-att-multiple="props.multiple"
+                t-on-change="onChange"
+            />
+            <t t-set-slot="footer">
+                <button
+                    class="btn btn-primary"
+                    t-on-click="onConfirm"
+                    t-att-disabled="!state.count"
+                    t-esc="props.confirmLabel"
+                />
+                <button class="btn btn-secondary" t-on-click="props.close">
+                    Cancel
+                </button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

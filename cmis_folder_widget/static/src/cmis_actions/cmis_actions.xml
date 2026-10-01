@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="cmis_folder_widget.CmisActions">
+        <div class="btn-group" role="group" t-on-click.stop="">
+            <t t-if="!props.cmisObject.is_folder">
+                <button
+                    type="button"
+                    title="Download"
+                    aria-label="Download"
+                    class="btn btn-outline-primary btn-sm o_cmis_download"
+                    t-on-click="() => props.onDownload(props.cmisObject)"
+                >
+                    <i class="fa fa-download" />
+                </button>
+                <button
+                    type="button"
+                    title="Preview"
+                    aria-label="Preview"
+                    class="btn btn-outline-primary btn-sm o_cmis_preview"
+                    t-on-click="() => props.onPreview(props.cmisObject)"
+                >
+                    <i class="fa fa-eye" />
+                </button>
+            </t>
+            <Dropdown t-if="hasMoreActions" position="'bottom-end'">
+                <button
+                    type="button"
+                    title="More actions"
+                    aria-label="More actions"
+                    class="btn btn-outline-primary btn-sm o_cmis_more"
+                >
+                    <i class="fa fa-ellipsis-v" />
+                </button>
+                <t t-set-slot="content">
+                    <DropdownItem
+                        t-if="props.permissions.can_rename"
+                        class="'o_cmis_rename'"
+                        onSelected="() => props.onRename(props.cmisObject)"
+                    >
+                        Rename
+                    </DropdownItem>
+                    <DropdownItem
+                        t-if="props.permissions.can_update_content and !props.cmisObject.is_folder"
+                        class="'o_cmis_update_content'"
+                        onSelected="() => props.onUpdateContent(props.cmisObject)"
+                    >
+                        Update content
+                    </DropdownItem>
+                    <t t-if="props.permissions.can_delete">
+                        <div class="dropdown-divider" />
+                        <DropdownItem
+                            class="'o_cmis_delete text-danger'"
+                            onSelected="() => props.onDelete(props.cmisObject)"
+                        >
+                            Delete
+                        </DropdownItem>
+                    </t>
+                </t>
+            </Dropdown>
+        </div>
+    </t>
+</templates>

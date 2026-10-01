@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="cmis_folder_widget.CmisBreadcrumbs">
+        <ol class="breadcrumb mb-2">
+            <t t-foreach="props.breadcrumbs" t-as="folder" t-key="folder.id">
+                <li
+                    t-if="folder_last"
+                    class="breadcrumb-item active"
+                    t-esc="folder.name"
+                />
+                <li t-else="" class="breadcrumb-item">
+                    <a
+                        href="#"
+                        t-esc="folder.name"
+                        t-on-click.prevent="() => props.openFolder(folder.id)"
+                    />
+                </li>
+            </t>
+        </ol>
+    </t>
+</templates>

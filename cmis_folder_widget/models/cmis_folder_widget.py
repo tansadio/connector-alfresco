@@ -115,7 +115,8 @@ class CmisFolderWidget(models.AbstractModel):
         }
 
     @api.model
-    def _serialize(self, cmis_object):
+    def _serialize(self, context, cmis_object):
+        """Return the values of a CMIS object sent to the widget"""
         props = cmis_object.properties
         return {
             "id": cmis_object.id,
@@ -161,11 +162,11 @@ class CmisFolderWidget(models.AbstractModel):
         folder = context.get_folder(folder_id)
         children = []
         for child in context.repository.iter_children(folder.id):
-            children.append(self._serialize(child))
+            children.append(self._serialize(context, child))
             if len(children) >= DEFAULT_CHILDREN_LIMIT:
                 break
         return {
-            "folder": self._serialize(folder),
+            "folder": self._serialize(context, folder),
             "breadcrumbs": self._get_breadcrumbs(context, folder),
             "children": children,
             "permissions": self._get_permissions(context.record),
@@ -176,7 +177,7 @@ class CmisFolderWidget(models.AbstractModel):
         context = self._get_context(model, res_id, field_name, "write")
         parent = context.get_folder(folder_id)
         folder = parent.create_folder(self._check_name(context, name))
-        return self._serialize(folder)
+        return self._serialize(context, folder)
 
     @api.model
     def upload(self, model, res_id, field_name, folder_id, files):
@@ -191,7 +192,7 @@ class CmisFolderWidget(models.AbstractModel):
             document = parent.create_document(
                 self._check_name(context, filename), content, mimetype
             )
-            documents.append(self._serialize(document))
+            documents.append(self._serialize(context, document))
         return documents
 
     @api.model
@@ -201,7 +202,7 @@ class CmisFolderWidget(models.AbstractModel):
         if context.is_root(cmis_object):
             raise UserError(self.env._("The folder of the record can not be renamed."))
         cmis_object.update_properties({"cmis:name": self._check_name(context, name)})
-        return self._serialize(cmis_object)
+        return self._serialize(context, cmis_object)
 
     @api.model
     def update_content(self, model, res_id, field_name, object_id, file):
@@ -217,7 +218,7 @@ class CmisFolderWidget(models.AbstractModel):
         document = context.repository.set_content(
             document.id, content, mimetype, filename=filename
         )
-        return self._serialize(document)
+        return self._serialize(context, document)
 
     @api.model
     def delete(self, model, res_id, field_name, object_id):

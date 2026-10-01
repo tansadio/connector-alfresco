@@ -2,6 +2,9 @@
  * License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). */
 
 import {FileModelMixin} from "@web/core/file_viewer/file_model";
+import {url} from "@web/core/utils/urls";
+
+export const CONTENT_ROUTE = "/cmis_folder_widget/content";
 
 /**
  * A document of a CMIS folder, displayed by the Odoo file viewer. Its
@@ -14,6 +17,7 @@ export class CmisFile extends FileModelMixin(Object) {
      */
     constructor(data, routeParams) {
         super();
+        this.data = data;
         this.id = data.id;
         this.name = data.name;
         this.mimetype = data.mimetype || "application/octet-stream";
@@ -22,11 +26,20 @@ export class CmisFile extends FileModelMixin(Object) {
     }
 
     get urlRoute() {
-        return "/cmis_folder_widget/content";
+        return CONTENT_ROUTE;
     }
 
     get urlQueryParams() {
         return {...this.routeParams, object_id: this.id};
+    }
+
+    get downloadUrl() {
+        // Always the document itself, even when previewed from a rendition
+        return url(CONTENT_ROUTE, {
+            ...this.routeParams,
+            object_id: this.id,
+            download: true,
+        });
     }
 
     get isText() {

@@ -96,12 +96,16 @@ class CmisFolderWidgetController(http.Controller):
             )
         except (UserError, AccessError) as error:
             raise werkzeug.exceptions.Forbidden(str(error)) from error
-        mimetype = document.mime_type or "application/octet-stream"
+        return self._stream(document.name, document.mime_type, response, download)
+
+    def _stream(self, filename, mimetype, response, download=False):
+        """Stream the content of a response of the CMIS server"""
+        mimetype = mimetype or "application/octet-stream"
         inline = not download and mimetype in INLINE_MIMETYPES
         headers = {
             "Content-Type": mimetype,
             "Content-Disposition": content_disposition(
-                document.name, "inline" if inline else "attachment"
+                filename, "inline" if inline else "attachment"
             ),
             "X-Content-Type-Options": "nosniff",
             "Cache-Control": "private, no-store",
